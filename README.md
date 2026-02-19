@@ -19,56 +19,52 @@ This integration enables a seamless workflow where you can ask Claude to help ma
 
 ### 📋 Prerequisites
 
-- 🐳 [Docker](https://www.docker.com/get-started) for running Planka
-- 🔄 [Git](https://git-scm.com/downloads) for cloning the repository
-- 🟢 [Node.js](https://nodejs.org/) (version 18 or above) and npm for development
+- 🟢 [Node.js](https://nodejs.org/) (version 18 or above)
+- 🐳 [Docker](https://www.docker.com/get-started) for running Planka (or an existing Planka instance)
 
-### 📥 Installation
+### 🚀 Usage with npx (recommended)
 
-1. Clone this repository:
+No installation required — just configure your MCP client to run the server via `npx`:
+
+#### Claude Desktop / Cursor
+
+Add this to your MCP configuration (`claude_desktop_config.json` or `.cursor/mcp.json`):
+
+```json
+{
+  "mcpServers": {
+    "planka": {
+      "command": "npx",
+      "args": ["-y", "@borgius/mcp-planka"],
+      "env": {
+        "PLANKA_BASE_URL": "http://localhost:3333",
+        "PLANKA_AGENT_EMAIL": "demo@demo.demo",
+        "PLANKA_AGENT_PASSWORD": "demo"
+      }
+    }
+  }
+}
+```
+
+#### Global install (alternative)
+
+```bash
+npm install -g @borgius/mcp-planka
+mcp-planka
+```
+
+### 🐳 Running Planka with Docker
+
+If you don't have a Planka instance yet, clone this repo and start one:
+
 ```bash
 git clone https://github.com/bradrisse/kanban-mcp.git
 cd kanban-mcp
-```
-
-2. Install dependencies and build the TypeScript code:
-```bash
-npm install
-npm run build
-```
-
-3. Start the Planka containers:
-```bash
 npm run up
 ```
 
-4. Access the Planka Kanban board:
-   - Default URL: http://localhost:3333
-   - Default credentials: 
-     - Email: demo@demo.demo
-     - Password: demo
-
-5. Configure Cursor to use the MCP server:
-   - In Cursor, go to Settings > Features > MCP
-   - Add a new MCP server with the following configuration:
-   ```json
-   {
-     "mcpServers": {
-       "kanban": {
-         "command": "node",
-         "args": ["/path/to/kanban-mcp/dist/index.js"],
-         "env": {
-           "PLANKA_BASE_URL": "http://localhost:3333",
-           "PLANKA_AGENT_EMAIL": "demo@demo.demo",
-           "PLANKA_AGENT_PASSWORD": "demo"
-         }
-       }
-     }
-   }
-   ```
-   - Replace `/path/to/kanban-mcp` with the actual absolute path to your kanban-mcp directory
-
-Alternatively, you can use a project-specific configuration by creating a `.cursor/mcp.json` file in your project root with the same configuration.
+- Default URL: http://localhost:3333
+- Default credentials: demo@demo.demo / demo
 
 For Docker-based deployment and other advanced options, see the [Installation Guide](https://github.com/bradrisse/kanban-mcp/wiki/Installation-Guide).
 
@@ -139,7 +135,9 @@ For more details on these strategies, see the [Capabilities and Strategies](http
 - `npm run down`: Stop all containers
 - `npm run restart`: Restart the Planka containers
 - `npm run start-node`: Start the MCP server directly with Node (for testing outside of Cursor)
-- `npm run qc`: Run quality control checks (linting and type checking)
+- `npm run release`: Bump patch version, build, and publish to npm
+- `npm run release:minor`: Bump minor version, build, and publish to npm
+- `npm run release:major`: Bump major version, build, and publish to npm
 
 ## 🤝 Contributing
 
